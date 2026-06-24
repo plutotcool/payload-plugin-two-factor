@@ -1,0 +1,28 @@
+@layer payload-default {
+  .payload-two-factor {
+    &__section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    &__status {
+      padding: 12px 16px;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      font-size: 14px;
+
+      &--pending {
+        background-color: var(--theme-warning-100, #fef3c7);
+        border: 1px solid var(--theme-warning-400, #f59e0b);
+        color: var(--theme-warning-800, #92400e);
+      }
+
+      &--enabled {
+        background-color: var(--theme-success-100, #d1fae5);
+        border: 1px solid var(--theme-success-500, #10b981);
+        color: var(--theme-success-800, #065f46);
+      }
+    }
+  }
+}

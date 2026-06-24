@@ -1,0 +1,104 @@
+{
+  "name": "@plutotcool/payload-plugin-two-factor",
+  "version": "0.1.0-rc.1",
+  "description": "TOTP-based two-factor authentication for the Payload CMS v3 admin panel.",
+  "keywords": [
+    "payload",
+    "payload-plugin",
+    "payloadcms",
+    "2fa",
+    "mfa",
+    "two-factor",
+    "totp",
+    "authentication"
+  ],
+  "homepage": "https://github.com/plutotcool/payload-plugin-two-factor#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plutotcool/payload-plugin-two-factor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/plutotcool/payload-plugin-two-factor/issues"
+  },
+  "license": "MIT",
+  "author": "Bastien Robert <bastien@plutot.cool>",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/exports/client.d.ts",
+      "import": "./dist/exports/client.js",
+      "default": "./dist/exports/client.js"
+    },
+    "./middleware": {
+      "types": "./dist/middleware.d.ts",
+      "import": "./dist/middleware.js",
+      "default": "./dist/middleware.js"
+    },
+    "./types": {
+      "types": "./dist/exports/types.d.ts",
+      "import": "./dist/exports/types.js",
+      "default": "./dist/exports/types.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "pnpm clean && pnpm copyfiles && pnpm build:types && pnpm build:swc",
+    "build:swc": "swc ./src -d ./dist --config-file .swcrc --strip-leading-paths --ignore \"**/*.d.ts\"",
+    "build:types": "tsc --emitDeclarationOnly --outDir dist",
+    "clean": "rimraf dist *.tsbuildinfo",
+    "copyfiles": "copyfiles -u 1 \"src/**/*.{scss,css,svg,png,jpg,woff,woff2,eot,ttf}\" dist/",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_CONFIG_PATH=dev/payload.config.ts next dev dev",
+    "dev:generate-importmap": "pnpm dev:payload generate:importmap",
+    "dev:generate-types": "pnpm dev:payload generate:types",
+    "dev:payload": "cross-env PAYLOAD_CONFIG_PATH=./dev/payload.config.ts payload",
+    "format": "prettier --write .",
+    "prepublishOnly": "pnpm build",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@payloadcms/ui": "^3.0.0",
+    "next": "^15.0.0 || ^16.0.0",
+    "payload": "^3.0.0",
+    "react": "^19.0.0"
+  },
+  "dependencies": {
+    "jose": "^6.0.0",
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "@payloadcms/db-sqlite": "^3.84.1",
+    "@payloadcms/next": "^3.84.1",
+    "@payloadcms/ui": "^3.84.1",
+    "@swc/cli": "^0.6.0",
+    "@swc/core": "^1.10.0",
+    "@types/node": "^22.0.0",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "copyfiles": "^2.4.1",
+    "cross-env": "^10.0.0",
+    "next": "^16.0.0",
+    "payload": "^3.84.1",
+    "prettier": "^3.4.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rimraf": "^6.0.0",
+    "typescript": "^5.7.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.20.2 || >=20.9.0"
+  },
+  "packageManager": "pnpm@11.7.0"
+}

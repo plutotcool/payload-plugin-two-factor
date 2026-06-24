@@ -1,0 +1,52 @@
+@layer payload-default {
+  .payload-two-factor {
+    &__token-input {
+      letter-spacing: 4px;
+      text-align: center;
+    }
+
+    &__secret-code {
+      user-select: all;
+      padding: 0.5rem;
+      background: var(--theme-elevation-50);
+      display: block;
+      border-radius: 4px;
+    }
+
+    &__qr-code {
+      margin-bottom: 1rem;
+
+      img {
+        width: 200px;
+        height: 200px;
+      }
+    }
+
+    &__actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    &__enabled-status {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    &__enabled-label {
+      color: var(--theme-success-500);
+      font-weight: bold;
+    }
+
+    &__error {
+      color: var(--theme-error-500);
+      margin-bottom: 1rem;
+    }
+
+    &__field-wrap {
+      flex: 1 1 auto;
+    }
+  }
+}

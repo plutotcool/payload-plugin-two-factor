@@ -1,0 +1,19 @@
+node_modules
+dist
+*.tsbuildinfo
+
+# Next.js / dev app
+.next
+dev/.next
+dev/payload-types.ts
+dev/*.db
+dev/*.db-*
+
+# Env & local
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+*.log
