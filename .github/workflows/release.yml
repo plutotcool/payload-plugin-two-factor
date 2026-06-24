@@ -50,6 +50,19 @@ jobs:
         run: pnpm release ${{ inputs.release-type && format('--{0}', inputs.release-type) || '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Resolve npm dist-tag
+        id: dist-tag
+        run: |
+          version="$(npm pkg get version | tr -d '"')"
+          if [[ "$version" == *-* ]]; then
+            prerelease="${version#*-}"   # 0.1.0-rc.1 -> rc.1 ; 1.0.0-0 -> 0
+            tag="${prerelease%%.*}"      # rc.1 -> rc          ; 0 -> 0
+            [[ "$tag" =~ ^[0-9]+$ ]] && tag="next"   # changelogen prerelease numérique
+          else
+            tag="latest"
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "Resolved dist-tag: $tag"
       - name: Setup node for npm
         uses: actions/setup-node@v4
         with:
@@ -57,7 +70,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           scope: '@plutotcool'
       - name: Publish to npm
-        run: npm publish --access public
+        run: npm publish --access public --tag ${{ steps.dist-tag.outputs.tag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Setup node for GitHub Packages
@@ -67,6 +80,6 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@plutotcool'
       - name: Publish to GitHub Packages
-        run: npm publish --registry=https://npm.pkg.github.com
+        run: npm publish --registry=https://npm.pkg.github.com --tag ${{ steps.dist-tag.outputs.tag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
