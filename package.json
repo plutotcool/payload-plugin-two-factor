@@ -1,6 +1,6 @@
 {
   "name": "@plutotcool/payload-plugin-two-factor",
-  "version": "0.0.0",
+  "version": "1.0.0-0",
   "description": "TOTP-based two-factor authentication for the Payload CMS v3 admin panel.",
   "keywords": [
     "payload",
