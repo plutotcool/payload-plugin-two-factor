@@ -27,6 +27,7 @@ export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || 'dev-secret-change-me',
   db: sqliteAdapter({
     client: {
+      // prettier-ignore
       url: process.env.DATABASE_URI || `file:${path.resolve(dirname, 'dev.db')}`,
     },
   }),

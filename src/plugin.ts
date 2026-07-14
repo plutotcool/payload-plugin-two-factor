@@ -14,7 +14,13 @@ import { en, fr } from './translations'
 import type { TwoFactorCustomConfig, TwoFactorPluginOptions } from './types'
 
 export function twoFactorPlugin(options: TwoFactorPluginOptions): Plugin {
-  const { collection = 'users', issuer, encryptionKey, totp, disabled } = options
+  const {
+    collection = 'users',
+    issuer,
+    encryptionKey,
+    totp,
+    disabled,
+  } = options
 
   const pluginConfig: TwoFactorCustomConfig = {
     collection,

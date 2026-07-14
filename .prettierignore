@@ -1,0 +1,12 @@
+node_modules
+dist
+*.tsbuildinfo
+
+# Generated
+pnpm-lock.yaml
+CHANGELOG.md
+dev/payload-types.ts
+
+# Next.js / dev app
+.next
+dev/.next

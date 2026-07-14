@@ -198,7 +198,8 @@ export function TwoFactorForm({ twoFactorEnabled }: TwoFactorFormProps) {
             type="button"
             buttonStyle="primary"
             onClick={onVerifySetup}
-            disabled={isLoading}>
+            disabled={isLoading}
+          >
             {isLoading
               ? t('plugin-two-factor:verifying')
               : t('plugin-two-factor:enableConfirm')}
@@ -207,7 +208,8 @@ export function TwoFactorForm({ twoFactorEnabled }: TwoFactorFormProps) {
             type="button"
             buttonStyle="secondary"
             onClick={onCancelSetup}
-            disabled={isLoading}>
+            disabled={isLoading}
+          >
             {t('plugin-two-factor:cancel')}
           </Button>
         </div>
@@ -231,7 +233,8 @@ export function TwoFactorForm({ twoFactorEnabled }: TwoFactorFormProps) {
             type="button"
             buttonStyle="primary"
             onClick={onDisable}
-            disabled={isLoading}>
+            disabled={isLoading}
+          >
             {isLoading
               ? t('plugin-two-factor:verifying')
               : t('plugin-two-factor:disableConfirm')}
@@ -243,7 +246,8 @@ export function TwoFactorForm({ twoFactorEnabled }: TwoFactorFormProps) {
               setMode('idle')
               setToken('')
             }}
-            disabled={isLoading}>
+            disabled={isLoading}
+          >
             {t('plugin-two-factor:cancel')}
           </Button>
         </div>
@@ -270,7 +274,8 @@ export function TwoFactorForm({ twoFactorEnabled }: TwoFactorFormProps) {
               setMode('disable')
               setToken('')
             }}
-            disabled={isLoading}>
+            disabled={isLoading}
+          >
             {t('plugin-two-factor:disableButton')}
           </Button>
         </div>
@@ -280,7 +285,8 @@ export function TwoFactorForm({ twoFactorEnabled }: TwoFactorFormProps) {
             type="button"
             buttonStyle="primary"
             onClick={onSetup}
-            disabled={isLoading}>
+            disabled={isLoading}
+          >
             {isLoading
               ? t('plugin-two-factor:loading')
               : t('plugin-two-factor:enableButton')}

@@ -100,25 +100,25 @@ page. It relies on `process.env.PAYLOAD_SECRET` being set.
 
 ## Options
 
-| Option          | Type                 | Default     | Description                                                                                          |
-| --------------- | -------------------- | ----------- | ---------------------------------------------------------------------------------------------------- |
-| `issuer`        | `string`             | _required_  | Label displayed in the authenticator app.                                                            |
-| `encryptionKey` | `string`             | _required_  | 64-char hex string (32 bytes) used to encrypt TOTP secrets at rest.                                  |
-| `collection`    | `string`             | `'users'`   | Slug of the auth collection to protect.                                                              |
-| `totp.window`   | `number`             | `1`         | Tolerance steps before/after the current 30s step, to absorb clock drift.                            |
-| `disabled`      | `boolean`            | `false`     | No-op the plugin while keeping its fields (so the DB schema stays stable). Skips endpoint registration. |
+| Option          | Type      | Default    | Description                                                                                             |
+| --------------- | --------- | ---------- | ------------------------------------------------------------------------------------------------------- |
+| `issuer`        | `string`  | _required_ | Label displayed in the authenticator app.                                                               |
+| `encryptionKey` | `string`  | _required_ | 64-char hex string (32 bytes) used to encrypt TOTP secrets at rest.                                     |
+| `collection`    | `string`  | `'users'`  | Slug of the auth collection to protect.                                                                 |
+| `totp.window`   | `number`  | `1`        | Tolerance steps before/after the current 30s step, to absorb clock drift.                               |
+| `disabled`      | `boolean` | `false`    | No-op the plugin while keeping its fields (so the DB schema stays stable). Skips endpoint registration. |
 
 `withTwoFactorMiddleware({ verifyPath })` accepts an optional `verifyPath`
 (default `'/admin/verify'`) if you mount the verify page elsewhere.
 
 ## Subpath exports
 
-| Import path                                         | Contents                                              |
-| --------------------------------------------------- | ----------------------------------------------------- |
-| `@plutotcool/payload-plugin-two-factor`             | `twoFactorPlugin` (server entry) + types              |
-| `@plutotcool/payload-plugin-two-factor/client`      | `'use client'` React components for the admin panel   |
-| `@plutotcool/payload-plugin-two-factor/middleware`  | `withTwoFactorMiddleware` (Next.js / edge)            |
-| `@plutotcool/payload-plugin-two-factor/types`       | TypeScript types only                                 |
+| Import path                                        | Contents                                            |
+| -------------------------------------------------- | --------------------------------------------------- |
+| `@plutotcool/payload-plugin-two-factor`            | `twoFactorPlugin` (server entry) + types            |
+| `@plutotcool/payload-plugin-two-factor/client`     | `'use client'` React components for the admin panel |
+| `@plutotcool/payload-plugin-two-factor/middleware` | `withTwoFactorMiddleware` (Next.js / edge)          |
+| `@plutotcool/payload-plugin-two-factor/types`      | TypeScript types only                               |
 
 ## How it works
 
