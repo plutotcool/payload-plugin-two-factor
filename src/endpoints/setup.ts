@@ -17,7 +17,19 @@ export function createSetupHandler(
         return Response.json({ error: 'Unauthorized' }, { status: 401 })
       }
 
-      const user = req.user as UserWith2FA
+      const user = (await req.payload.findByID({
+        collection: pluginConfig.collection as CollectionSlug,
+        id: req.user.id,
+        overrideAccess: true,
+      })) as UserWith2FA
+
+      if (user.twoFactorEnabled === true) {
+        return Response.json(
+          { error: '2FA is already enabled for this account.' },
+          { status: 409 },
+        )
+      }
+
       const totp = createTOTPService(pluginConfig.encryptionKey)
 
       const secret = totp.generateSecret()
