@@ -36,9 +36,20 @@ export function createVerifyHandler(
 
       const totp = createTOTPService(pluginConfig.encryptionKey)
       const totpWindow = pluginConfig.totp.window
-      const user = req.user as UserWith2FA
+      const user = (await req.payload.findByID({
+        collection: pluginConfig.collection as CollectionSlug,
+        id: req.user.id,
+        overrideAccess: true,
+      })) as UserWith2FA
 
       if (action === 'enable') {
+        if (user.twoFactorEnabled === true) {
+          return Response.json(
+            { error: '2FA is already enabled for this account.' },
+            { status: 409 },
+          )
+        }
+
         const encryptedPending = user.twoFactorPending
 
         if (!encryptedPending) {
