@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v1.0.1
+
+[compare changes](https://github.com/plutotcool/payload-plugin-two-factor/compare/v1.0.0...v1.0.1)
+
+### 🩹 Fixes
+
+- **security:** Block two-factor replacement ([e8fa91e](https://github.com/plutotcool/payload-plugin-two-factor/commit/e8fa91e))
+
+### 🏡 Chore
+
+- Merge pull request #1 from plutotcool/hotfix/block-factor-replacement ([#1](https://github.com/plutotcool/payload-plugin-two-factor/issues/1))
+
+### ❤️ Contributors
+
+- Julien Dargelos ([@juliendargelos](https://github.com/juliendargelos))
+- Juliendargelos <hello@julien.gl>
+
 ## v1.0.0
 
 [compare changes](https://github.com/plutotcool/payload-plugin-two-factor/compare/v1.0.0-1...v1.0.0)
