@@ -1,7 +1,6 @@
 # Payload Two-Factor Authentication
 
-[![npm](https://img.shields.io/npm/v/@plutotcool/payload-plugin-two-factor.svg)](https://www.npmjs.com/package/@plutotcool/payload-plugin-two-factor)
-[![license](https://img.shields.io/npm/l/@plutotcool/payload-plugin-two-factor.svg)](./LICENSE)
+[![npm](https://img.shields.io/npm/v/@plutotcool/payload-plugin-two-factor.svg)](https://www.npmjs.com/package/@plutotcool/payload-plugin-two-factor) [![license](https://img.shields.io/npm/l/@plutotcool/payload-plugin-two-factor.svg)](./LICENSE)
 
 TOTP-based two-factor authentication (2FA) for the **[Payload CMS](https://payloadcms.com) v3** admin panel.
 
@@ -56,10 +55,7 @@ export default buildConfig({
 })
 ```
 
-The plugin injects three hidden fields (`twoFactorSecret`, `twoFactorEnabled`,
-`twoFactorPending`) plus a UI field into the target collection, and registers
-the endpoints under `/api/two-factor/*`. Run your usual migration / schema sync
-afterwards.
+The plugin injects three hidden fields (`twoFactorSecret`, `twoFactorEnabled`, `twoFactorPending`) plus a UI field into the target collection, and registers the endpoints under `/api/two-factor/*`. Run your usual migration / schema sync afterwards.
 
 ### 2. Add the verification page
 
@@ -94,9 +90,7 @@ export const config = {
 }
 ```
 
-The middleware reads the Payload JWT, and for accounts with 2FA **enabled** but
-not yet **verified** this session, redirects `/admin` navigation to the verify
-page. It relies on `process.env.PAYLOAD_SECRET` being set.
+The middleware reads the Payload JWT, and for accounts with 2FA **enabled** but not yet **verified** this session, redirects `/admin` navigation to the verify page. It relies on `process.env.PAYLOAD_SECRET` being set.
 
 ## Options
 
@@ -108,8 +102,7 @@ page. It relies on `process.env.PAYLOAD_SECRET` being set.
 | `totp.window`   | `number`  | `1`        | Tolerance steps before/after the current 30s step, to absorb clock drift.                               |
 | `disabled`      | `boolean` | `false`    | No-op the plugin while keeping its fields (so the DB schema stays stable). Skips endpoint registration. |
 
-`withTwoFactorMiddleware({ verifyPath })` accepts an optional `verifyPath`
-(default `'/admin/verify'`) if you mount the verify page elsewhere.
+`withTwoFactorMiddleware({ verifyPath })` accepts an optional `verifyPath` (default `'/admin/verify'`) if you mount the verify page elsewhere.
 
 ## Subpath exports
 
@@ -122,23 +115,22 @@ page. It relies on `process.env.PAYLOAD_SECRET` being set.
 
 ## How it works
 
-- **Setup** — `POST /api/two-factor/setup` generates a TOTP secret + QR code and
-  stores it encrypted as _pending_ on the user.
-- **Enable / disable** — `POST /api/two-factor/verify` validates a code and flips
-  `twoFactorEnabled`, promoting the pending secret to the active one.
-- **Login verification** — `POST /api/two-factor/verify-login` validates a code
-  and sets an HMAC-signed `payload-two-factor` cookie marking the session verified.
-- **Gatekeeping** — the middleware checks that cookie against the JWT on every
-  `/admin` navigation.
+- **Setup** — `POST /api/two-factor/setup` generates a TOTP secret + QR code and stores it encrypted as _pending_ on the user.
+- **Enable / disable** — `POST /api/two-factor/verify` validates a code and flips `twoFactorEnabled`, promoting the pending secret to the active one.
+- **Login verification** — `POST /api/two-factor/verify-login` validates a code and sets an HMAC-signed `payload-two-factor` cookie marking the session verified.
+- **Gatekeeping** — the middleware checks that cookie against the JWT on every `/admin` navigation.
 
-Secrets are encrypted with AES-256-GCM before hitting the database, and TOTP
-codes are compared in constant time.
+Secrets are encrypted with AES-256-GCM before hitting the database, and TOTP codes are compared in constant time.
+
+### Changing authenticator
+
+An active factor can't be replaced in place: `setup` and `verify` with `action: 'enable'` return `409` while 2FA is enabled. To switch authenticator, disable 2FA first (which requires a code from the current one), then enroll again. This way a stolen password alone is never enough to swap the secret.
+
+A user who loses their authenticator has no self-service recovery path. They must be reset out-of-band (database or Local API) by clearing `twoFactorEnabled` and `twoFactorSecret` on their document.
 
 ## Local development
 
-A throwaway Payload app lives in [`dev/`](./dev) (SQLite, a single `users`
-collection wired to the plugin). It imports the plugin straight from `src`, so
-changes are picked up without rebuilding.
+A throwaway Payload app lives in [`dev/`](./dev) (SQLite, a single `users` collection wired to the plugin). It imports the plugin straight from `src`, so changes are picked up without rebuilding.
 
 ```bash
 pnpm install
@@ -157,15 +149,13 @@ pnpm typecheck                # type-check the plugin source
 
 ## Build philosophy
 
-This package is **not bundled**. Following the Payload v3 convention, sources
-are transpiled file-by-file so `'use client'` / RSC boundaries survive intact:
+This package is **not bundled**. Following the Payload v3 convention, sources are transpiled file-by-file so `'use client'` / RSC boundaries survive intact:
 
 - **SWC** transpiles TS → JS (`.swcrc`)
 - **tsc** emits declarations only (`--emitDeclarationOnly`)
 - **copyfiles** copies `.scss` assets
 
-`dist/` mirrors `src/`, and the `exports` map keeps client, server, and
-middleware entry points separate so server-only code never leaks to the client.
+`dist/` mirrors `src/`, and the `exports` map keeps client, server, and middleware entry points separate so server-only code never leaks to the client.
 
 ## License
 
